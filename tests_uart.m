@@ -1,7 +1,7 @@
 %% tests uart recibir
 delete(instrfind);%evita problemas al abrir y cerrar el puerto
 serialportlist("available")';
-TivaObj = serial('COM6','Baudrate', 115200);
+TivaObj = serial('COM5','Baudrate', 115200);
 fopen(TivaObj);
 % 
 % for i = 1:n
@@ -40,6 +40,9 @@ for n = 1:N
         k = k + 1;    
     end
 end
+h7 = plot(t,zeros(N,1));
+xlim([0,t(end)]);
+buffer = zeros(K,1);
 end 
 fclose(TivaObj);
 
