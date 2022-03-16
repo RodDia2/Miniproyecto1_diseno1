@@ -1,8 +1,8 @@
 %% tests uart recibir
 delete(instrfind);%evita problemas al abrir y cerrar el puerto
 serialportlist("available")';
-TivaObj = serial('COM5','Baudrate', 115200);
-fopen(TivaObj);
+TivaObj = serialport('COM5', 115200);
+%fopen(TivaObj);
 % 
 % for i = 1:n
 %     data(1,i) = fscanf(TivaObj, '%f');
@@ -19,7 +19,7 @@ t = linspace(0,2*pi,N)';    % no es necesario trasponer, es para tener vectores 
 %y = cos(10*t);
 K = 10;      % Restricción: K debe ser factor de N. Se puede ajustar el código abajo para
             % eliminar esta restricción. 
-        
+%valores = 0;
 figure(7); clf;
 h7 = plot(t,zeros(N,1));
 xlim([0,t(end)]);
@@ -27,8 +27,12 @@ buffer = zeros(K,1);
 k = 1;
 while(1)
 for n = 1:N
-    data(1,n) = fscanf(TivaObj, '%f');
-    buffer(k) = data(1,n);
+    %data(1,n) = fscanf(TivaObj, '%f');
+    %palabra = num2str(data(1,n));
+    palabra = readline(TivaObj);
+    valores = split(palabra,"&");
+    numero = str2double(valores(1));
+    buffer(k) = numero;
     
     if(k == K)
         
