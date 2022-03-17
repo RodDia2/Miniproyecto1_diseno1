@@ -62,17 +62,30 @@ float gyroy = 0, gyroz = 0;
 float angulo1 = 0;
 
 int lvl = 0;
-float kp1 = 0;
-float ki1 = 1;
-float kd1 = 1;
-float kp2 = 5;
-float ki2 = 4;
-float kd2 = 7;
+uint16_t kp1 = 3;
+uint16_t ki1 = 1;
+uint16_t kd1 = 1;
+uint16_t kp2 = 5;
+uint16_t ki2 = 4;
+uint16_t kd2 = 7;
+float kp;
+float ki;
+float kd;
 
 uint8_t ban = 0;
 uint8_t mensaje[];
+uint8_t mensaje2[];
 uint8_t vacio[];
 uint32_t ind = 0;
+uint8_t ban1 = 0;
+uint8_t ban2 = 0;
+uint8_t ban3 = 0;
+uint8_t ban4 = 0;
+uint8_t length = 0;
+uint16_t length2 = 0;
+int mensajes = 0;
+
+char buf[8];
 
 
 //*****************************************************************************
@@ -120,17 +133,17 @@ UARTIntHandler(void)
     //
     // Get the interrrupt status.
     //
-    ui32Status = UARTIntStatus(UART0_BASE, true);
+    ui32Status = ROM_UARTIntStatus(UART0_BASE, true);
 
     //
     // Clear the asserted interrupts.
     //
-    UARTIntClear(UART0_BASE, ui32Status);
+    ROM_UARTIntClear(UART0_BASE, ui32Status);
 
     //
     // Loop while there are characters in the receive FIFO.
     //
-    while(UARTCharsAvail(UART0_BASE))
+    while(ROM_UARTCharsAvail(UART0_BASE))
     {
         //
         // Read the next character from the UART and write it back to the UART.
@@ -145,17 +158,54 @@ UARTIntHandler(void)
             ban = 0;
         }
         if (ban == 1) {
-            mensaje[ind] = cThisChar;
+            if (ind >= 1) {
+                mensaje[ind] = cThisChar;
+                if (ind >= 2) {
+                    mensaje2[ind-1]=cThisChar;
+                }
+            }
             ind++;
         }
 
         if (ban == 0 && ind >= 1 ) {
-            uint8_t* p = mensaje +1;
-           // UARTSend((uint8_t *)p, ind-1);
+            mensaje[ind] = '_';
+            uint8_t* p = mensaje +2;
+            mensajes = 0;
+            mensajes = atoi(p);
+            //length = sizeof(p)/sizeof(p[1]);
+            length = ind-2;
+            length2 = pow(10,length);
+            //  mensaje2 = (char*)mensaje;
+            //UARTSend((uint8_t *)p, ind-2);
+            //UARTprintf("%d\n",mensajes);
+            if (mensaje[1] == 'a') {
+                ban1 = 1;
+            }
+            else if (mensaje[1] == 'b') {
+                ban1 = 2;
+            }
+            else if (mensaje[1] == 'c') {
+                ban1 = 3;
+            }
+            else if (mensaje[1] == 'd') {
+                ban1 = 4;
+            }
+            else if (mensaje[1] == 'e') {
+                ban1 = 5;
+            }
+            else if (mensaje[1] == 'f') {
+                ban1 = 6;
+            }
+            else if (mensaje[1] == 'g') {
+                ban1 = 7;
+            }
+            else {
+                ban1 = 0;
+            }
+            //UARTSend((uint8_t *)mensaje, ind+1);
             ind = 0;
-            //mensaje = vacio;
+           // mensaje[1] = 0;
         }
-
     }
 }
 
@@ -226,6 +276,7 @@ Timer1IntHandler(void)
   //  UARTprintf("Gyro. X: %d | Gyro. X: %d \n", (int)x, (int)x2);
    // delayMS(100);
   //  UARTprintf("$\n");
+    //sprintf(buf,"%g",kp);
     UARTprintf("%d&%d&%d&%d&%d.%d&%d.%d&%d.%d\n",(int)x2,(int)y2,(int)z,(int)lvl,(int)kp1,(int)kp2,(int)ki1,(int)ki2,(int)kd1,(int)kd2);
     // Update the interrupt status on the display.
     IntMasterDisable();
@@ -393,6 +444,49 @@ void MPU6050Example(void)
         //
         // Do something with the new accelerometer and gyroscope readings.
         //
+        switch(ban1){
+            case 1:
+                ban2 = 1;
+                /*
+                if ((int)mensajes>(int)0) {
+                    lvl = -mensajes;
+                } else {
+                    lvl = -mensajes;
+                }
+                */
+                lvl = mensajes;
+                break;
+            case 2:
+                ban2 = 2;
+                kp1 = mensajes;
+                break;
+            case 3:
+                ban2 = 3;
+                kp2 = mensajes;
+                break;
+            case 4:
+                ban2 = 4;
+                ki1 = mensajes;
+                break;
+            case 5:
+                ban2 = 4;
+                ki2 = mensajes;
+                break;
+            case 6:
+                ban2 = 4;
+                kd1 = mensajes;
+                break;
+            case 7:
+                ban2 = 4;
+                kd2 = mensajes;
+                break;
+            default:
+                ban2 = 0;
+                break;
+            }
+            kp = (float)kp2/(length2)+(float)kp1;
+            ki = (float)ki2/(length2)+(float)ki1;
+            kd = (float)kd2/(length2)+(float)kd1;
 
     }
 }

@@ -25,6 +25,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "inc/hw_ints.h"
 #include "inc/hw_memmap.h"
 #include "driverlib/debug.h"
@@ -38,6 +39,8 @@
 #include "driverlib/uart.h"
 #include "inc\hw_uart.h"
 #include "utils/uartstdio.h"
+
+#include <math.h>
 
 //*****************************************************************************
 //
@@ -69,6 +72,19 @@ uint8_t ban3 = 0;
 uint8_t ban4 = 0;
 
 uint8_t length = 0;
+uint16_t length2 = 0;
+int mensajes = 0;
+//uint8_t* p;
+int lvl = 0;
+uint16_t kp1 = 3;
+uint16_t ki1 = 1;
+uint16_t kd1 = 1;
+uint16_t kp2 = 5;
+uint16_t ki2 = 4;
+uint16_t kd2 = 7;
+float kp;
+float ki;
+float kd;
 //*****************************************************************************
 //
 // The error routine that is called if the driver library encounters an error.
@@ -148,11 +164,18 @@ UARTIntHandler(void)
         }
 
         if (ban == 0 && ind >= 1 ) {
+            mensaje[ind] = '_';
+            ind += 1;
+            mensaje[ind] = 1;
             uint8_t* p = mensaje +2;
-            length = sizeof(p)/sizeof(p[1]);
+            mensajes = 0;
+            mensajes = atoi(p);
+            //length = sizeof(p)/sizeof(p[1]);
+            length = ind-2;
+            length2 = pow(10,length);
             //  mensaje2 = (char*)mensaje;
-            UARTSend((uint8_t *)p, ind-2);
-            //UARTprintf("hola \n",mensaje);
+            //UARTSend((uint8_t *)p, ind-2);
+            //UARTprintf("%d\n",mensajes);
             if (mensaje[1] == 'a') {
                 ban1 = 1;
             }
@@ -165,11 +188,21 @@ UARTIntHandler(void)
             else if (mensaje[1] == 'd') {
                 ban1 = 4;
             }
+            else if (mensaje[1] == 'e') {
+                ban1 = 5;
+            }
+            else if (mensaje[1] == 'f') {
+                ban1 = 6;
+            }
+            else if (mensaje[1] == 'g') {
+                ban1 = 7;
+            }
             else {
                 ban1 = 0;
             }
             //UARTSend((uint8_t *)mensaje, ind+1);
             ind = 0;
+           // mensaje[1] = 0;
         }
         //
         // Blink the LED to show a character transfer is occuring.
@@ -262,5 +295,54 @@ main(void)
     //
     while(1)
     {
+        switch(ban1){
+        case 1:
+            ban2 = 1;
+            /*
+            if ((int)mensajes>(int)0) {
+                lvl = -mensajes;
+            } else {
+                lvl = -mensajes;
+            }
+            */
+            lvl = mensajes;
+            break;
+        case 2:
+            ban2 = 2;
+            kp1 = mensajes;
+            break;
+        case 3:
+            ban2 = 3;
+            kp2 = mensajes;
+            break;
+        case 4:
+            ban2 = 4;
+            ki1 = mensajes;
+            break;
+        case 5:
+            ban2 = 4;
+            ki2 = mensajes;
+            break;
+        case 6:
+            ban2 = 4;
+            kd1 = mensajes;
+            break;
+        case 7:
+            ban2 = 4;
+            kd2 = mensajes;
+            break;
+        default:
+            ban2 = 0;
+            break;
+        }
+        kp = (float)kp2/(length2)+(float)kp1;
+        ki = (float)ki2/1000+(float)ki1;
+        kd = (float)kd2/1000+(float)kd1;
+       // int i;
+       // uint8_t* p = mensaje +2;
+       // mensajes = atoi(p);
+       // for (i = 1;i<length;i++){
+            //mensaje = atoi()
+       // }
     }
 }
