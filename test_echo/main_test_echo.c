@@ -41,6 +41,7 @@
 #include "utils/uartstdio.h"
 
 #include <math.h>
+#include <string.h>
 
 //*****************************************************************************
 //
@@ -85,6 +86,9 @@ uint16_t kd2 = 7;
 float kp;
 float ki;
 float kd;
+char ceros[4];
+
+uint8_t c = 0;
 //*****************************************************************************
 //
 // The error routine that is called if the driver library encounters an error.
@@ -165,8 +169,16 @@ UARTIntHandler(void)
 
         if (ban == 0 && ind >= 1 ) {
             mensaje[ind] = '_';
-            ind += 1;
-            mensaje[ind] = 1;
+            int i = 0;
+            c = 0;
+            for (i=2;i<ind;i++) {
+                if (mensaje[i] == '0') {
+                    ceros[i-2] = '0';
+                    c = c + 1;
+                }
+            }
+            //ind += 1;
+            //mensaje[ind] = '1';
             uint8_t* p = mensaje +2;
             mensajes = 0;
             mensajes = atoi(p);
@@ -174,7 +186,7 @@ UARTIntHandler(void)
             length = ind-2;
             length2 = pow(10,length);
             //  mensaje2 = (char*)mensaje;
-            //UARTSend((uint8_t *)p, ind-2);
+            UARTSend((uint8_t *)p, ind-2);
             //UARTprintf("%d\n",mensajes);
             if (mensaje[1] == 'a') {
                 ban1 = 1;

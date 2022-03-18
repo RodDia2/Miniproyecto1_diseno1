@@ -30,6 +30,8 @@ main_test_echo.obj: C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/inclu
 main_test_echo.obj: C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/math.h
 main_test_echo.obj: C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_defs.h
 main_test_echo.obj: C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_limits.h
+main_test_echo.obj: C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/string.h
+main_test_echo.obj: C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/xlocale/_string.h
 
 ../main_test_echo.c:
 
@@ -90,4 +92,8 @@ C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/math.h:
 C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_defs.h:
 
 C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_limits.h:
+
+C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/string.h:
+
+C:/ti/ccs1031/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/xlocale/_string.h:
 
