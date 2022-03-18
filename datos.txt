@@ -1,0 +1,9 @@
+Row	Data_Muestra
+Ang. x:	14
+Ang. y:	-47
+Ang. z:	-152
+nivel:	2
+kp:	3.2
+ki:	1.4
+kd:	1.7
+N:	0

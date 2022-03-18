@@ -1,0 +1,6 @@
+Row	Pitch	Shape	Price	Stock
+M4	0.7	Pan	10	376
+M5	0.8	Round	13.59	502
+M6	1	Button	10.5	465
+M8	1.25	Pan	12	1091
+M10	1.5	Round	16.69	562
