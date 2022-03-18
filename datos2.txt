@@ -1,0 +1,11 @@
+Row	Data_Muestra
+Ang. y1:	-22
+Ang. y2:	-22
+Ang. y3:	-22
+Ang. y4:	-22
+Ang. y5:	-22
+Ang. y6:	-22
+Ang. y7:	-22
+Ang. y8:	-22
+Ang. y9:	-22
+Ang. y10:	-22
