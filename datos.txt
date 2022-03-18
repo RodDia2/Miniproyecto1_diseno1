@@ -1,9 +1,9 @@
 Row	Data_Muestra
-Ang. x:	14
-Ang. y:	-47
-Ang. z:	-152
-nivel:	2
-kp:	3.2
-ki:	1.4
-kd:	1.7
-N:	0
+Ang. x:	-5
+Ang. y:	0
+Ang. z:	87
+nivel:	0
+kp:	1.0
+ki:	0.0
+kd:	0.0
+N:	500
